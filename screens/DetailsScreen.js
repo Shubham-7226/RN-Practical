@@ -2,48 +2,43 @@ import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, TextInput, Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
 
-function DetailsScreen({navigation}) {
-  const [fname, onChangeFname] = useState('');
-  const [lname, onChangeLname] = useState('');
-  const [number, onChangeNumber] = useState(null);
-  const fnameInputHandler = enteredText => {
-    onChangeFname(enteredText);
+function DetailsScreen(props) {
+  const [fname, setChangeFname] = useState('first name');
+  const [lname, setChangeLname] = useState('last name');
+  const [number, setChangeNumber] = useState(8989898555);
+
+  // const arr = [fname, lname, number];
+  const details = () => {
+    props.navigation.navigate('Home', {
+      // fname: fname,
+      // lname: lname,
+      // number: number,
+    });
   };
-  const lnameInputHandler = enteredText => {
-    onChangeLname(enteredText);
-  };
-  const numberInputHandler = enteredText => {
-    onChangeNumber(enteredText);
-  };
-  const arr = [fname, lname, number];
   return (
     <SafeAreaView>
       <TextInput
         style={styles.input}
-        onChangeText={fnameInputHandler}
+        onChangeText={Text => setChangeFname(Text)}
         placeholder="First Name"
         value={fname}
       />
       <TextInput
         style={styles.input}
-        onChangeText={lnameInputHandler}
+        onChangeText={Text => setChangeLname(Text)}
         value={lname}
         placeholder="Last Name"
       />
       <TextInput
         style={styles.input}
-        onChangeText={numberInputHandler}
+        onChangeText={Text => setChangeNumber(Text)}
         value={number}
         placeholder="Phone Number"
         keyboardType="numeric"
       />
-      <Button
-        title="Save"
-        onPress={() => {
-          navigation.navigate('Home');
-        }}
-      />
+      <Button title="Save" onPress={details} />
     </SafeAreaView>
   );
 }
