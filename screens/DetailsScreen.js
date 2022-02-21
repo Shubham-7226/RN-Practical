@@ -1,21 +1,31 @@
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, TextInput, Button} from 'react-native';
+import {SafeAreaView, View, StyleSheet, TextInput, Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
 
 function DetailsScreen(props) {
-  const [fname, setChangeFname] = useState('first name');
-  const [lname, setChangeLname] = useState('last name');
-  const [number, setChangeNumber] = useState(8989898555);
+  const [fname, setChangeFname] = useState('');
+  const [lname, setChangeLname] = useState('');
+  const [number, setChangeNumber] = useState();
+  // const [changeState, setChangeState] = useState();
+  var newData = props.route.params;
 
-  // const arr = [fname, lname, number];
+  var oldData = [{fname: fname, lname: lname, number: number}];
+
   const details = () => {
-    props.navigation.navigate('Home', {
-      // fname: fname,
-      // lname: lname,
-      // number: number,
-    });
+    if (typeof newData !== 'undefined') {
+      console.log(newData);
+      newData.push.apply(newData, oldData);
+    } else {
+      // console.log(newData);
+      newData.push(oldData);
+    }
+
+    console.log(newData);
+    // oldData.push.apply(newData, oldData);
+    // setChangeState(true);
+    props.navigation.navigate('Home', newData);
   };
   return (
     <SafeAreaView>
@@ -38,7 +48,9 @@ function DetailsScreen(props) {
         placeholder="Phone Number"
         keyboardType="numeric"
       />
-      <Button title="Save" onPress={details} />
+      <View style={{marginVertical: 10}}>
+        <Button title="Save" onPress={details} />
+      </View>
     </SafeAreaView>
   );
 }
